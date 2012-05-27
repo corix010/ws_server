@@ -3,8 +3,11 @@ class VehiclesController < ApplicationController
   # GET /vehicles.json
   def index
     callsign = params[:callsign]
+    vehicle_numbers = params[:vehicle_numbers].to_s.split(',')
     if callsign
       @vehicles = Vehicle.where("callsign=?",callsign)
+    elsif vehicle_numbers.any?
+      @vehicles = Vehicle.where("number IN (?)",vehicle_numbers)
     else
       @vehicles = Vehicle.all
     end
